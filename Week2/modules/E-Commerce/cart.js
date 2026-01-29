@@ -30,7 +30,7 @@ export function addToCart(productId, quantity) {
   if (cartItem) { // If yes, update quantity
     cartItem.quantity += quantity;
   } else { // If no, add new item
-    cartItems.push({
+    cartItems.psh({
       productId,
       quantity
     });
@@ -40,12 +40,12 @@ export function addToCart(productId, quantity) {
 }
 
 export function removeFromCart(productId) { // Remove product from cart
-    let ProfToRemove = cartItems.find(product => product.id === productId)
-    if (index === -1) {
+    let ProdToRemove = cartItems.findIndex(product => product.id === productId)
+    if (ProdToRemove === -1) {
         return "Product not found in cart";
     }
 
-    cartItems.splice(index, 1);
+    cartItems.splice(ProdToRemove, 1);
     return "Product removed from cart";
 }
 
@@ -67,7 +67,7 @@ export function updateQuantity(productId, newQuantity) { // Update quantity of p
     return "Quantity updated successfully";
 }
 
- export function getCartItems() {// Return all cart items with product details
+export function getCartItems() {// Return all cart items with product details
     return cartItems.map(item => {
     let product = getProductById(item.productId);
     return {
