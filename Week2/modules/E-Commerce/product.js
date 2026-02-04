@@ -10,17 +10,17 @@ const products = [
 
 // TODO: Implement these functions
 
-export function getProductById(id) {
+function getProductById(id) {
   // Find and return product by ID
     return products.find(product => product.id === id)
 }
 
-export function getAllProducts() {
+function getAllProducts() {
   // Return all products
     return products
 }
 
-export function getProductsByCategory(category) {
+function getProductsByCategory(category) {
   // Filter products by category
     let RequiredProduct = []
     products.forEach(product => {
@@ -30,17 +30,17 @@ export function getProductsByCategory(category) {
     })
     return RequiredProduct
 }
-export function searchProducts(query) {
+function searchProducts(query) {
 // Search products by name (case-insensitive)
     return products.find(product => product.name.toLowerCase() === query.toLowerCase())
 }
-export function checkStock(productId, quantity) {
+function checkStock(productId, quantity) {
 // Check if product has enough stock
 // Return true/false
     let ProductStock = products.find(product => product.id === productId)
-    return ProductStock ? ProductStock.stock >= quantity : false;
+    return ProductStock ? ProductStock.stock >= quantity : true;
 }
-export function reduceStock(productId, quantity) {   // Reduce product stock after purchase
+function reduceStock(productId, quantity) {   // Reduce product stock after purchase
     let ProductReduce = products.find(product => product.id === productId)
     if(!ProductReduce) return false
     if(ProductReduce.stock < quantity) return false
@@ -49,3 +49,5 @@ export function reduceStock(productId, quantity) {   // Reduce product stock aft
     return true
     
 }
+
+export { getProductById, getAllProducts, getProductsByCategory, searchProducts, checkStock, reduceStock }

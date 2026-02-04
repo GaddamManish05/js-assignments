@@ -6,21 +6,36 @@ const coupons = {
 
 // TODO: Implement these functions
 
-export function validateCoupon(couponCode, cartTotal, cartItems) {
+function validateCoupon(couponCode, cartTotal, cartItems) {
   // 1. Check if coupon exists
   // 2. Check minimum amount requirement
   // 3. Check category requirement (if any)
   // Return { valid: true/false, message: '...' }
-    if(!coupons.include(couponCode)){
-        return false
+    if(!coupons[couponCode]){
+        return {
+            valid : false,
+            message : 'Invalid Coupon Code'
+        }
     }
     if(cartTotal < coupons[couponCode].minAmount){
-        return false
+        return {
+            valid : false,
+            message : 'Minimum amount requirement not met'
+        }
     }
-    coupons[couponCode].category === cartItems
+    if(coupons[couponCode].category && !cartItems.some(item => item.category === coupons[couponCode].category)){
+        return {
+            valid : false,
+            message : 'Category requirement not met'
+        }
+    }
+    return {
+        valid : true,
+        message : 'Coupon is valid'
+    }
 }
 
-export function calculateDiscount(couponCode, cartTotal) {
+function calculateDiscount(couponCode, cartTotal) {
   // Calculate discount amount based on coupon type
   // Return discount amount
     let coupon = coupons[couponCode]
@@ -37,7 +52,7 @@ export function calculateDiscount(couponCode, cartTotal) {
     return 0;
 }
 
-export function applyDiscount(couponCode,cartTotal, cartItems) {
+function applyDiscount(couponCode,cartTotal, cartItems) {
   // 1. Validate coupon
   // 2. If valid, calculate discount
   // 3. Return final amount and discount details
@@ -66,3 +81,4 @@ export function applyDiscount(couponCode,cartTotal, cartItems) {
     }
 }
 
+export { validateCoupon, calculateDiscount, applyDiscount }

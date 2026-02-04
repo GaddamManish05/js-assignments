@@ -5,7 +5,7 @@ import { applyDiscount } from './discount.js';
 
 // TODO: Implement these functions
 
-export function processPayment(paymentMethod, couponCode = null) {
+function processPayment(paymentMethod, couponCode = null) {
   // 1. Get cart items and total
   // 2. Apply discount if coupon provided
   // 3. Validate payment method (card/upi/cod)
@@ -44,7 +44,7 @@ export function processPayment(paymentMethod, couponCode = null) {
         let discountAmount = applyDiscount(couponCode,subtotal,item)
         discount = discountAmount.discount;
         subtotal = discountAmount.finalTotal;
-        discountMessage = discountAmount.message;
+        discountmessage = discountAmount.message;
       }
       
       if(!validatePaymentMethod(paymentMethod)){
@@ -79,11 +79,11 @@ export function processPayment(paymentMethod, couponCode = null) {
   // }
 
       return{
-          orderId : 1,
+          orderId : generateOrderId(),
           items : item,
-          subtotal : subtotal,
+          subtotal : -subtotal,
           discount : discount,
-          total : Total,
+          total : -(subtotal - discount),
           paymentMethod : paymentMethod,
           status : 'success',
           message : 'Payment Successfully'
@@ -92,7 +92,7 @@ export function processPayment(paymentMethod, couponCode = null) {
 
 
 
-export function validatePaymentMethod(method) {
+function validatePaymentMethod(method) {
   // Check if method is valid (card/upi/cod)
     const validMethods = ['card', 'upi', 'cod'];
     return validMethods.includes(method);
@@ -102,3 +102,4 @@ function generateOrderId() {
   // Generate random order ID
   return 'ORD' + Date.now();
 }
+export { processPayment, validatePaymentMethod, generateOrderId };

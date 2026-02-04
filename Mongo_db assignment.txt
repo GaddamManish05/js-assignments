@@ -1,0 +1,172 @@
+check databse
+
+=>show databases
+=>show dbs
+
+Create and use database
+=>use database_name
+
+collections
+=>db.createCollection("users")
+show collections
+
+insert documents
+
+insert one 
+
+=>db.users.insertOne({ name: "ravi", age: 21, city: "hyderabad" })
+
+insert many
+=>db.users.insertMany([
+  { name: "ravi", age: 21, city: "hyderabad" },
+  { name: "sai", age: 23, city: "vizag" }
+  ])
+
+raed documents
+
+find one
+db.users.findOne()
+
+find all
+db.users.find()
+
+query operator
+
+$eq
+db.users.find({ age: { $eq: 21 } })
+
+$gt
+db.users.find({ age: { $gt: 21 } })
+
+$gte
+db.users.find({ age: { $gte: 21 } })
+
+$lt
+db.users.find({ age: { $lt: 25 } })
+
+$lte
+db.users.find({ age: { $lte: 21 } })
+
+$ne
+db.users.find({ age: { $ne: 21 } })
+
+$in
+db.users.find({ city: { $in: ["hyderabad", "vizag"] } })
+
+logical operator
+
+$and
+db.users.find({
+$and: [
+{ age: { $gte: 21 } },
+{ city: "hyderabad" }
+]
+})
+
+$or
+db.users.find({
+$or: [
+{ city: "hyderabad" },
+{ city: "vizag" }
+]
+})
+
+$not
+db.users.find({
+age: { $not: { $lt: 21 } }
+})
+
+update documents
+
+updates one
+db.users.updateOne(
+{ name: "ravi" },
+{ $set: { age: 22 } }
+)
+
+updates many
+db.users.updateMany(
+{ city: "hyderabad" },
+{ $set: { status: "active" } }
+)
+
+delete documents
+
+delete one
+db.users.deleteOne({ name: "ravi" })
+
+delete many
+db.users.deleteMany({ city: "vizag" })
+
+embedded documents
+
+find document
+db.users.find({ "address.city": "hyderabad" })
+
+updates embedded document
+db.users.updateOne(
+{ name: "ravi" },
+{ $set: { "address.city": "vizag" } }
+)
+
+unset embedded document
+db.users.updateOne(
+{ name: "ravi" },
+{ $unset: { "address.pincode": "" } }
+)
+
+Array operations
+
+Find single element 
+db.users.find({ skills: "node" })
+
+find multiple elements
+db.users.find({ skills: { $all: ["js", "mongodb"] } })
+
+updates array
+
+add one element
+db.users.updateOne(
+{ name: "ravi" },
+{ $push: { skills: "react" } }
+)
+
+add multiple elements
+db.users.updateOne(
+{ name: "ravi" },
+{ $push: { skills: { $each: ["express", "jwt"] } } }
+)
+
+remove one element
+
+remove last element
+db.users.updateOne(
+{ name: "ravi" },
+{ $pop: { skills: 1 } }
+)
+
+remove first element
+db.users.updateOne(
+{ name: "ravi" },
+{ $pop: { skills: -1 } }
+)
+
+remove specific element 
+db.users.updateOne(
+{ name: "ravi" },
+{ $pull: { skills: "node" } }
+)
+
+remove multiple elements
+db.users.updateOne(
+{ name: "ravi" },
+{ $pullAll: { skills: ["js", "react"] } }
+)
+
+array of documents
+
+updates using index
+db.students.updateOne(
+{ name: "ravi" },
+{ $set: { "marks.0.score": 85 } }
+)

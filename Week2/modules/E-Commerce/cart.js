@@ -5,7 +5,7 @@ let cartItems = [];
 
 // TODO: Implement these functions
 
-export function addToCart(productId, quantity) {
+function addToCart(productId, quantity) {
   // 1. Get product details
   // 2. Check stock availability
   // 3. Check if product already in cart
@@ -30,7 +30,7 @@ export function addToCart(productId, quantity) {
   if (cartItem) { // If yes, update quantity
     cartItem.quantity += quantity;
   } else { // If no, add new item
-    cartItems.psh({
+    cartItems.push({
       productId,
       quantity
     });
@@ -39,9 +39,9 @@ export function addToCart(productId, quantity) {
   return "Product added to cart successfully";
 }
 
-export function removeFromCart(productId) { // Remove product from cart
-    let ProdToRemove = cartItems.findIndex(product => product.id === productId)
-    if (ProdToRemove === -1) {
+function removeFromCart(productId) { // Remove product from cart
+    let ProdToRemove = cartItems.filter(product => product.productId === productId)
+    if (ProdToRemove.length === 0) {
         return "Product not found in cart";
     }
 
@@ -49,10 +49,9 @@ export function removeFromCart(productId) { // Remove product from cart
     return "Product removed from cart";
 }
 
-
-export function updateQuantity(productId, newQuantity) { // Update quantity of product in cart
+function updateQuantity(productId, newQuantity) { // Update quantity of product in cart
   // Check stock before updating
-    let cartItem = cartItems.find(product => product.id === productId)
+    let cartItem = cartItems.find(product => product.productId === productId)
     if (!cartItem) {
         return "Product not found in cart";
     }
@@ -66,8 +65,7 @@ export function updateQuantity(productId, newQuantity) { // Update quantity of p
     cartItem.quantity = newQuantity;
     return "Quantity updated successfully";
 }
-
-export function getCartItems() {// Return all cart items with product details
+function getCartItems() {// Return all cart items with product details
     return cartItems.map(item => {
     let product = getProductById(item.productId);
     return {
@@ -78,18 +76,21 @@ export function getCartItems() {// Return all cart items with product details
   });
 }
 
-
-export function getCartTotal() { // Calculate total price of all items in cart
+function getCartTotal() { // Calculate total price of all items in cart
   // Return total
     return cartItems.reduce((total, item) => {
         let product = getProductById(item.productId);
         return total + product.price * item.quantity;
     }, 0);
 }
-
-export function clearCart() {
+function clearCart() {
   // Empty the cart
     cartItems.length = 0
     return "Cart Item Cleared"
 
 }
+
+export { addToCart, removeFromCart, updateQuantity, getCartItems, getCartTotal, clearCart }
+// discount.js - Coupon and discount management
+
+// Coupon database (simulated)
